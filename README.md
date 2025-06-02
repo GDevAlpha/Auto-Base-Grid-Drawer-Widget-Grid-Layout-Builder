@@ -7,6 +7,7 @@ A simple visual grid editor for defining custom grid layouts for use in your Lua
 You can use the builder directly in your browser:
 
 👉 [Open Grid Builder Page](https://gdevalpha.github.io/Auto-Base-Grid-Drawer-Widget-Grid-Layout-Builder/)
+
 👉 [Widget Page](https://github.com/GDevAlpha/BAR-Base-Drawer-Widget)
 
 ## ✨ Features
