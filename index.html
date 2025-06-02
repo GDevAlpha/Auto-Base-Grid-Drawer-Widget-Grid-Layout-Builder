@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Grid Layout Builder</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+    }
+    table {
+      margin: auto;
+      border-collapse: collapse;
+    }
+    td {
+      width: 40px;
+      height: 40px;
+      font-size: 24px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      text-align: center;
+      vertical-align: middle;
+      user-select: none;
+      position: relative;
+    }
+    .choice-box {
+      position: absolute;
+      background: #d3d3d3; /* light gray */
+      border: 1px solid #aaa;
+      display: flex;
+      flex-direction: row; /* changed to horizontal */
+      z-index: 10;
+    }
+    .choice-box div {
+      padding: 6px 10px;
+      cursor: pointer;
+      border-right: 1px solid #bbb;
+    }
+    .choice-box div:last-child {
+      border-right: none;
+    }
+    .choice-box div:hover {
+      background: #f0f0f0;
+    }
+    input {
+      margin: 10px;
+    }
+    button {
+      padding: 8px 16px;
+      margin-top: 10px;
+    }
+    pre {
+      margin-top: 20px;
+      text-align: left;
+      background: #f4f4f4;
+      padding: 10px;
+      width: fit-content;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Grid Layout Builder</h2>
+<label>Rows: <input type="number" id="rows" value="5" min="1"></label>
+<label>Cols: <input type="number" id="cols" value="5" min="1"></label>
+<button onclick="generateGrid()">Generate Grid</button>
+
+<div id="gridContainer"></div>
+
+<button onclick="exportGrid()">Export Grid</button>
+
+<pre id="output"></pre>
+
+<script>
+  const symbols = ['⬜', '─', '│', '┌'];
+  let gridData = [];
+
+  function generateGrid() {
+    const rows = parseInt(document.getElementById('rows').value);
+    const cols = parseInt(document.getElementById('cols').value);
+    const container = document.getElementById('gridContainer');
+    container.innerHTML = '';
+    gridData = Array.from({ length: rows }, () => Array(cols).fill(0));
+
+    const table = document.createElement('table');
+
+    for (let r = 0; r < rows; r++) {
+      const tr = document.createElement('tr');
+      for (let c = 0; c < cols; c++) {
+        const td = document.createElement('td');
+        td.textContent = symbols[0];
+        td.dataset.row = r;
+        td.dataset.col = c;
+        td.onclick = (e) => showChoiceBox(e, td);
+        tr.appendChild(td);
+      }
+      table.appendChild(tr);
+    }
+
+    container.appendChild(table);
+  }
+
+  function showChoiceBox(event, td) {
+    removeExistingBoxes();
+    const box = document.createElement('div');
+    box.className = 'choice-box';
+
+    symbols.forEach((symbol, index) => {
+      const option = document.createElement('div');
+      option.textContent = symbol;
+      option.onclick = () => {
+        const row = parseInt(td.dataset.row);
+        const col = parseInt(td.dataset.col);
+        gridData[row][col] = index;
+        td.textContent = symbol;
+        removeExistingBoxes();
+        event.stopPropagation();
+      };
+      box.appendChild(option);
+    });
+
+    td.appendChild(box);
+    event.stopPropagation();
+  }
+
+  function removeExistingBoxes() {
+    document.querySelectorAll('.choice-box').forEach(box => box.remove());
+  }
+
+  function exportGrid() {
+    const luaGrid = gridData.map(row => '{ ' + row.join(', ') + ' }').join(',\n');
+    document.getElementById('output').textContent = `local yourCustomLayout = {\n${luaGrid}\n}`;
+  }
+
+  document.addEventListener('click', removeExistingBoxes);
+
+  window.onload = generateGrid;
+</script>
+
+</body>
+</html>
