@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Grid Layout Builder</title>
+  <title>Base Grid Layout Builder</title>
   <style>
     body {
       font-family: sans-serif;
@@ -137,6 +137,48 @@
 
   window.onload = generateGrid;
 </script>
+
+<section id="faq" style="margin-top: 2rem; padding: 1rem; border-top: 1px solid #ccc; text-align: left; max-width: 800px; margin-left: auto; margin-right: auto;">
+  <h2>Auto Base Grid Drawer Widget</h2>
+  <p>
+    🔗 Link to Widget
+    <a href="https://github.com/GDevAlpha/BAR-Base-Drawer-Widget" target="_blank">
+      GitHub
+    </a>
+  </p>
+  
+  <h2>❓ FAQ</h2>
+  
+  <h3>🧩 What do the grid symbols mean?</h3>
+  <ul>
+    <li>⬜ = <code>0</code> (Empty)</li>
+    <li>─ = <code>1</code> (Horizontal line)</li>
+    <li>│ = <code>2</code> (Vertical line)</li>
+    <li>┌ = <code>3</code> (Corner / Horizontal + Vertical line)</li>
+  </ul>
+
+  <h3>✍️ Can I add or remove rows and columns?</h3>
+  <p>Yes. Enter the desired number of rows and columns in the input fields, then click <strong>"Generate Grid"</strong>.</p>
+
+  <h3>🔁 Can I change the grid layout after generating it?</h3>
+  <p>Yes. Click any cell in the grid — a small popup will appear with four selectable options. Choose the symbol you want.</p>
+
+  <h3>📤 How do I use the exported grid in my widget?</h3>
+  <p>Click the <strong>"Export Grid"</strong> button. Then copy the generated Lua table and paste it into your Lua widget:</p>
+  <pre><code>local myLayout = {
+  { 0, 1, 1 },
+  { 2, 3, 0 },
+  { 0, 0, 0 },
+}</code></pre>
+
+  <p>Register your new layout like this:</p>
+  <pre><code>local gridLayouts = { myLayout, midLayout, corneLayout }</code></pre>
+
+  <h3>🔄 Can I create multiple layouts?</h3>
+  <p>Yes. Export as many layouts as you need and include them in your layout list:</p>
+  <pre><code>local gridLayouts = { layout1, layout2, layout3 }</code></pre>
+</section>
+
 
 </body>
 </html>
